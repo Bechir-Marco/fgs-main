@@ -1,0 +1,170 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <div class="row match-height" *ngIf="isAdmin || isFournisseur">
+      <div class="col-xl-12 col-md-6 col-12"  *ngIf="displayForm==false">
+        <div class="card card-statistics">
+          <div class="card-header">
+            <h4 class="card-title">Statistique</h4>
+            <div class="d-flex align-items-center">
+            </div>
+          </div>
+          <div class="card-body statistics-body">
+            <div class="row">
+              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+                <div class="media">
+                  <div class="avatar bg-light-secondary mr-2">
+                    <div class="avatar-content">
+                      <a  addConsoleForm  class="btn  btn-just-icon">
+                        <i data-feather="clipboard" class="avatar-icon"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.total}}</h4>
+                    <p class="card-text font-small-3 mb-0">Tout les colis</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <p></p><br>
+              <br>
+            </div>
+            <div class="row">
+              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+                <div class="media">
+                  <div class="avatar bg-light-primary mr-2">
+                    <div class="avatar-content">
+                      <a   class="btn  btn-just-icon" >
+                        <i data-feather="edit"  class="avatar-icon"> </i>
+                      </a> 
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.cree}}</h4>
+                    <p class="card-text font-small-3 mb-0">crées</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3 mb-2 mb-xl-0">
+                <div class="media">
+                  <div class="avatar bg-light-secondary mr-2">
+                    <div class="avatar-content">
+                      <a   class="btn  btn-just-icon">
+                        <i data-feather="watch" class="avatar-icon"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.enAttenteDePrelevement}}</h4>
+                    <p class="card-text font-small-3 mb-0">En attente de prelevement</p>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="col-sm-6 col-xl-3 mb-2 mb-sm-0">
+                <div class="media">
+                  <div class="avatar bg-light-info mr-2">
+                    <div class="avatar-content">
+                      <a   class="btn  btn-just-icon">
+                        <i data-feather="archive" class="avatar-icon"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.enStock}}</h4>
+                    <p class="card-text font-small-3 mb-0">En stock</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class="media">
+                  <div class="avatar bg-light-success mr-2">
+                    <div class="avatar-content">
+                      <a   class="btn  btn-just-icon">
+                      <i data-feather="truck" class="avatar-icon"></i>
+                    </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.enCoursDeLivraison}}</h4>
+                    <p class="card-text font-small-3 mb-0">En cours de livraison</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          <div class="row">
+            <p></p><br>
+            <br>
+          </div>
+            <div class="row">
+              <div class="col-sm-6 col-xl-3">
+                <div class="media">
+                  <div class="avatar bg-light-warning mr-2">
+                    <div class="avatar-content">
+                      <a  class="btn  btn-just-icon">
+                      <i data-feather="check-square" class="avatar-icon"></i>
+                    </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.livre}}</h4>
+                    <p class="card-text font-small-3 mb-0">livrés</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class="media">
+                  <div class="avatar bg-light-success mr-2">
+                    <div class="avatar-content">
+                      <a  class="btn  btn-just-icon">
+                        <i data-feather="dollar-sign" class="avatar-icon"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.livrePaye}}</h4>
+                    <p class="card-text font-small-3 mb-0">livrés et payés</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class="media">
+                  <div class="avatar bg-light-warning mr-2">
+                    <div class="avatar-content">
+                      <a   class="btn  btn-just-icon">
+                        <i data-feather="rotate-cw" class="avatar-icon"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.planificationRetour}}</h4>
+                    <p class="card-text font-small-3 mb-0">planifiés retour</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-xl-3">
+                <div class="media">
+                  <div class="avatar bg-light-danger mr-2">
+                    <div class="avatar-content">
+                      <a    class="btn  btn-just-icon">
+                      <i data-feather="refresh-cw" class="avatar-icon"></i>
+                    </a>
+                    </div>
+                  </div>
+                  <div class="media-body my-auto">
+                    <h4 class="font-weight-bolder mb-0">{{totalstate.retourne}}</h4>
+                    <p class="card-text font-small-3 mb-0">retournés </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+  </div>
+</div>
