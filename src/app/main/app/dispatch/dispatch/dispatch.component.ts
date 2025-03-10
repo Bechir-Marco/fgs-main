@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FournisseurService } from 'app/service/fournisseur.service';
 import { Fournisseur } from 'app/Model/fournisseur';
-
+import { Console } from '../../../../Model/console';
 
 
 @Component({
@@ -46,7 +46,7 @@ export class DispatchComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('tableRowDetails') tableRowDetails: any;
   data: any;
-  listColisCrees: import("c:/Users/sechouaya/Desktop/New folder (18)/sassfront/src/app/Model/console").Console;
+  listColisCrees: Console[];
   selectedReferences: any;
   listLivreur: any;
   livreur;

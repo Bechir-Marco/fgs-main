@@ -14,21 +14,21 @@ export class ErrorInterceptor implements HttpInterceptor {
    */
   constructor(private _router: Router, private _authenticationService: AuthenticationService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(
-      catchError(err => {
-        if ([401, 403].indexOf(err.status) !== -1) {
-          // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  return next.handle(request).pipe(
+    catchError(err => {
+      if ([401, 403].indexOf(err.status) !== -1) {
+        if (!this._authenticationService.currentUserValue && 
+            !this._router.url.includes('/pages/authentication/')) {
+          console.log("No user, not on auth page - to /not-authorized");
           this._router.navigate(['/pages/miscellaneous/not-authorized']);
-
-          // ? Can also logout and reload if needed
-          // this._authenticationService.logout();
-          // location.reload(true);
+        } else {
+          console.log("Skipping redirect - user:", this._authenticationService.currentUserValue);
         }
-        // throwError
-        const error = err.error.message || err.statusText;
-        return throwError(error);
-      })
-    );
-  }
+      }
+      const error = err.error?.message || err.statusText;
+      return throwError(() => new Error(error));
+    })
+  );
+}
 }

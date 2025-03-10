@@ -236,14 +236,21 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.coreConfig.layout.footer.hidden) {
           this._elementRef.nativeElement.classList.add('footer-hidden');
         }
-        if(this._authenticationService.isAdmin) {
-          this.societeLivraison.getSocieteLivById().subscribe(data=> {
-            if(!data && !(this._router.url.indexOf('societe/societe') > -1)) {
-              this.openDeleteModal()
-            }
-          })
-        }
-      
+        
+       if (this._authenticationService.currentUserValue && 
+          this._authenticationService.isAdmin && 
+          !this._router.url.includes('/pages/authentication/') && 
+          !this._router.url.includes('/pages/miscellaneous/not-authorized')) {
+        console.log("AppComponent - Running societe check");
+         this.societeLivraison.getSocieteLivById().subscribe({
+           next: (data)=>{
+             console.log("Societe data:", data);
+             if (!data && !this._router.url.includes('societe/societe')) {
+               console.log("No societe data - opening modal");
+               this.openDeleteModal();
+             }
+           }
+         })}
       }
 
       // Skin Class (Adding to body as it requires highest priority)
@@ -277,15 +284,21 @@ export class AppComponent implements OnInit, OnDestroy {
   toggleSidebar(key): void {
     this._coreSidebarService.getSidebarRegistry(key).toggleOpen();
   }
-  navigateTo(){
-    this._router.navigate(['/societe/societe']);
-    this.modalService.dismissAll();
-  }
+  navigateTo() {
+  console.log("Navigating to /societe/societe");
+  this._router.navigate(['/societe/societe']);
+  this.modalService.dismissAll();
+}
   openDeleteModal() {
-    this.modalService.open(this.modalAlert, {
-      centered: true,
-      windowClass: 'modal modal-danger',
-    });
-  }
+  
+  const modalRef = this.modalService.open(this.modalAlert, {
+    centered: true,
+    windowClass: 'modal modal-danger',
+  });
+  modalRef.result.then(
+    (result) => console.log("Modal closed with:", result),
+    (reason) => console.log("Modal dismissed with:", reason)
+  );
+}
   
 }

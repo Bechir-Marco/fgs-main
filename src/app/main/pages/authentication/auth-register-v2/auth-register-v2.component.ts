@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';  
+import { ToastrService } from 'ngx-toastr'; 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
+import { AuthenticationService } from 'app/auth/service';
 import { CoreConfigService } from '@core/services/config.service';
 
 @Component({
@@ -28,7 +29,7 @@ export class AuthRegisterV2Component implements OnInit {
    * @param {CoreConfigService} _coreConfigService
    * @param {FormBuilder} _formBuilder
    */
-  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder) {
+  constructor(private _coreConfigService: CoreConfigService, private _formBuilder: FormBuilder,private _authenticationService: AuthenticationService,private _router: Router,private _toastrService: ToastrService) {
     this._unsubscribeAll = new Subject();
 
     // Configure the layout
@@ -64,14 +65,28 @@ export class AuthRegisterV2Component implements OnInit {
   /**
    * On Submit
    */
-  onSubmit() {
-    this.submitted = true;
+onSubmit() {
+  this.submitted = true;
+  if (this.registerForm.invalid) return;
 
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
-    }
-  }
+  const { username, email, password } = this.registerForm.value;
+  this._authenticationService.register(username, email, password)
+    .subscribe({
+      next: (response) => {
+        console.log("onSubmit response:", response);
+        this._toastrService.success('Registration successful! Please log in. 🚀', 'Success', { timeOut: 3000 });
+        window.location.href = '/pages/authentication/login-v2';
+        this._router.navigate(['/pages/authentication/login-v2']).then(success => {
+          console.log("Navigation result:", success ? "Success" : "Failed");
+          if (!success) console.log("Current route:", this._router.url);
+        });
+      },
+      error: (error) => {
+        this._toastrService.error('Registration failed: ' + (error.message || 'Unknown error'), 'Error', { timeOut: 2000 });
+      }
+    });
+}
+  
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------

@@ -202,7 +202,7 @@ const appRoutes: Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     // ! IMPORTANT: Provider used to create fake backend, comment while using real API
-    fakeBackendProvider
+    
   ],
   entryComponents: [BasicCustomContextMenuComponent, AnimatedCustomContextMenuComponent],
   bootstrap: [AppComponent]

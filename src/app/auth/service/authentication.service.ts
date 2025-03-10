@@ -17,6 +17,7 @@ export class AuthenticationService {
   private currentRoleSubject: BehaviorSubject<String>;
 
   public currentRole: Observable<String>;
+  private _router: any;
   /**
    *
    * @param {HttpClient} _http
@@ -81,13 +82,13 @@ export class AuthenticationService {
             localStorage.setItem('userId', user.iduser)
 
             // Display welcome toast!
-            setTimeout(() => {
+           
               this._toastrService.success(
                 'You have successfully logged in to Delisas.  🎉',
                 '👋 Welcome, ' + user.username + '!',
                 { toastClass: 'toast ngx-toastr', closeButton: true }
               );
-            }, 2500);
+            
 
             // notify
             this.currentUserSubject.next(user);
@@ -111,6 +112,33 @@ export class AuthenticationService {
 
   }
 
+
+
+register(username: string, email: string, password: string, role: string = "0"): Observable<any> {
+  return this._http
+    .post<any>(`${environment.apiUrl}/register`, { username, email, password, roleUser: role })
+    .pipe(
+      map(user => {
+        
+        if (user) {
+          const roleMap = { 
+            '0': 'Admin', 
+            'ADMIN': 'Admin', 
+            '1': 'Fournisseur', 
+            'FOURNISSEUR': 'Fournisseur', 
+            '2': 'Personnel', 
+            'PERSONNEL': 'Personnel' 
+          };
+          const roleValue = roleMap[user.roleUser] || 'Admin';
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem('role', roleValue);
+          localStorage.setItem('userId', user.iduser);
+        }
+        return user;
+      })
+    );
+}
+  
   /**
    * User logout
    *
@@ -123,9 +151,5 @@ export class AuthenticationService {
     // notify
     this.currentUserSubject.next(null);
     this.currentUser = this.currentUserSubject.asObservable();
-
-
   }
-
-
 }
